@@ -1,0 +1,71 @@
+---
+title: "R Markdown & Leaflet"
+author: "Markos Hay"
+data: "10/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This is an Coursera project defined as follow= “Create a web page using R Markdown that features a map created with Leaflet.
+
+Host your webpage on either GitHub Pages, RPubs, or NeoCities.
+
+Your webpage must contain the date that you created the document, and it must contain a map created with Leaflet. We would love to see you show off your creativity!"
+
+# Required Packages
+
+```{r}
+library(leaflet)
+```
+
+```{r}
+library(htmltools)
+```
+
+# Data Plotted
+
+From Kagle: Dataset about the best restaurants in the world. By Megh Mayur. Contains the list of The World’s 50 Best Restaurants for 2018 (https://www.kaggle.com/mmayur/the-worlds-50-best-restaurants)
+
+```{r}
+datamap <- read.csv(file = "data.csv", header = TRUE, sep = ",")
+```
+
+# Creating Data Frame to read as Table
+
+```{r}
+mimapa <- data.frame(Ranking = datamap$Ranking,
+                     Name = datamap$Name,
+                     City = datamap$City,
+                     Country = datamap$Country,
+                     Latitude = datamap$Latitude,
+                     Longitude = datamap$Longitude
+                     )
+```
+
+# Map Plot
+
+```{r}
+map <- mimapa %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(popup=paste
+             ("<br>Country: ", 
+               htmlEscape(mimapa$Country), 
+              "<br>City: ", 
+               htmlEscape(mimapa$City), 
+              "<br>Restaurant: ", 
+               htmlEscape(mimapa$Name),
+              "<br>Ranking: ",
+               formatC(datamap$Ranking, format = "d", big.mark = ",")
+              ) 
+            )
+```
+
+```{r}
+map
+```
