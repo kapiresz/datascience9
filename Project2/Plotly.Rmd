@@ -1,0 +1,19 @@
+---
+title: "R Markdown & Plotly"
+author: "Markos Hay"
+data: "10/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(plotly)
+data("mtcars")
+plot_ly( x = mtcars$wt, y = mtcars$mpg, z = mtcars$hp) %>%
+    add_markers(color = factor(mtcars$cyl))
+```
+
+
